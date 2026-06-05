@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lifeos-v2';
+const CACHE_NAME = 'lifeos-v3';
 
 // Static shell — always cache these
 const PRECACHE_ASSETS = [
