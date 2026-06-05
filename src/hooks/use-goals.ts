@@ -19,6 +19,11 @@ export function useGoals() {
     const cached = loadFromCache<Goal[]>('goals');
     if (cached) setGoals(cached);
 
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      setLoading(false);
+      return;
+    }
+
     try {
       const { data, error } = await supabase
         .from('goals')

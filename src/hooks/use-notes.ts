@@ -22,6 +22,11 @@ export function useNotes() {
     if (cachedNotes) setNotes(cachedNotes);
     if (cachedFolders) setFolders(cachedFolders);
 
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      setLoading(false);
+      return;
+    }
+
     try {
       const [notesRes, foldersRes] = await Promise.all([
         supabase.from('notes').select('*').order('updated_at', { ascending: false }),

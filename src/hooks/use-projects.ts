@@ -20,6 +20,11 @@ export function useProjects() {
     const cached = loadFromCache<Project[]>('projects');
     if (cached) setProjects(cached);
 
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      setLoading(false);
+      return;
+    }
+
     try {
       const { data, error } = await supabase
         .from('projects')
