@@ -6,6 +6,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
+import { saveToCache, loadFromCache } from '@/lib/offline-cache';
 import type { Note, NoteFormData, Folder } from '@/types';
 
 export function useNotes() {
@@ -15,16 +16,26 @@ export function useNotes() {
 
   const fetchNotes = useCallback(async () => {
     setLoading(true);
-    const [notesRes, foldersRes] = await Promise.all([
-      supabase.from('notes').select('*').order('updated_at', { ascending: false }),
-      supabase.from('folders').select('*').order('name', { ascending: true }),
-    ]);
 
-    if (notesRes.error) console.error('Error fetching notes:', notesRes.error);
-    if (foldersRes.error) console.error('Error fetching folders:', foldersRes.error);
+    const cachedNotes = loadFromCache<Note[]>('notes');
+    const cachedFolders = loadFromCache<Folder[]>('folders');
+    if (cachedNotes) setNotes(cachedNotes);
+    if (cachedFolders) setFolders(cachedFolders);
 
-    setNotes(notesRes.data || []);
-    setFolders(foldersRes.data || []);
+    try {
+      const [notesRes, foldersRes] = await Promise.all([
+        supabase.from('notes').select('*').order('updated_at', { ascending: false }),
+        supabase.from('folders').select('*').order('name', { ascending: true }),
+      ]);
+      if (notesRes.error) throw notesRes.error;
+      setNotes(notesRes.data || []);
+      setFolders(foldersRes.data || []);
+      saveToCache('notes', notesRes.data || []);
+      saveToCache('folders', foldersRes.data || []);
+    } catch {
+      console.warn('Offline — using cached notes');
+    }
+
     setLoading(false);
   }, []);
 

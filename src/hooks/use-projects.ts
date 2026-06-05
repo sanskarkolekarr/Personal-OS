@@ -6,6 +6,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
+import { saveToCache, loadFromCache } from '@/lib/offline-cache';
 import type { Project, ProjectFormData } from '@/types';
 
 export function useProjects() {
@@ -14,21 +15,31 @@ export function useProjects() {
 
   const fetchProjects = useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('projects')
-      .select('*, tasks(id)')
-      .order('created_at', { ascending: false });
 
-    if (error) {
-      console.error('Error fetching projects:', error);
-    } else {
+    // Try to load from cache immediately for instant UI
+    const cached = loadFromCache<Project[]>('projects');
+    if (cached) setProjects(cached);
+
+    try {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*, tasks(id)')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
       const projectsWithCount = (data || []).map((p) => ({
         ...p,
         task_count: p.tasks?.length || 0,
         tasks: undefined,
       }));
       setProjects(projectsWithCount);
+      saveToCache('projects', projectsWithCount);
+    } catch (err) {
+      console.warn('Offline — using cached projects');
+      // Already set from cache above
     }
+
     setLoading(false);
   }, []);
 

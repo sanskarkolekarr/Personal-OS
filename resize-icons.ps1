@@ -1,6 +1,6 @@
 Add-Type -AssemblyName System.Drawing
 
-$src = "C:\Users\HP\.gemini\antigravity-ide\brain\7d80470b-0753-4b74-9cf4-c5e20a82ee57\lifeos_icon_1780639331359.png"
+$src = "D:\Projects\Sanskar's OS\logo.png"
 $outDir = "D:\Projects\Sanskar's OS\public"
 
 foreach ($size in @(72, 96, 128, 144, 152, 192, 384, 512)) {

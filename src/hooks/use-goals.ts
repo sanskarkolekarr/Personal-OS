@@ -6,6 +6,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
+import { saveToCache, loadFromCache } from '@/lib/offline-cache';
 import type { Goal, GoalFormData, GoalType, Milestone } from '@/types';
 
 export function useGoals() {
@@ -14,15 +15,20 @@ export function useGoals() {
 
   const fetchGoals = useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('goals')
-      .select('*')
-      .order('created_at', { ascending: false });
 
-    if (error) {
-      console.error('Error fetching goals:', error);
-    } else {
+    const cached = loadFromCache<Goal[]>('goals');
+    if (cached) setGoals(cached);
+
+    try {
+      const { data, error } = await supabase
+        .from('goals')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
       setGoals(data || []);
+      saveToCache('goals', data || []);
+    } catch {
+      console.warn('Offline — using cached goals');
     }
     setLoading(false);
   }, []);
