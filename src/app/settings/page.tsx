@@ -207,7 +207,7 @@ export default function SettingsPage() {
 
                 <div className="space-y-2">
                   <Label>Timezone</Label>
-                  <Select value={timezone} onValueChange={setTimezone}>
+                  <Select value={timezone} onValueChange={(val) => val && setTimezone(val)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select timezone" />
                     </SelectTrigger>
