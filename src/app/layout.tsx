@@ -75,11 +75,11 @@ export default function RootLayout({
         className="font-sans min-h-screen bg-background text-foreground antialiased flex flex-col"
       >
         <Providers>
-          <div className="flex h-screen overflow-hidden">
+          <div className="flex h-[100dvh] w-full overflow-hidden">
             {/* Desktop Sidebar */}
             <Sidebar />
 
-            <div className="flex-1 flex flex-col relative w-full">
+            <div className="flex-1 flex flex-col relative w-full max-w-[100vw] overflow-hidden">
               {/* Top Navigation */}
               <Topbar />
 

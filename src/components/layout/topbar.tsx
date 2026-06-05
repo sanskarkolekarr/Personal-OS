@@ -58,10 +58,11 @@ export function Topbar() {
         {/* Search / Command Palette Trigger */}
         <button
           onClick={toggleCommandPalette}
-          className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 hover:bg-muted/80 transition-colors border border-border/50 rounded-full px-4 py-2 w-full max-w-[280px] md:max-w-[400px]"
+          className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 hover:bg-muted/80 transition-colors border border-border/50 rounded-full px-3 py-2 w-full max-w-[200px] sm:max-w-[280px] md:max-w-[400px]"
         >
-          <Search className="h-4 w-4" />
-          <span>Search everything...</span>
+          <Search className="h-4 w-4 shrink-0" />
+          <span className="hidden sm:inline truncate">Search everything...</span>
+          <span className="inline sm:hidden truncate text-xs">Search...</span>
           <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-background px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
             <span className="text-xs">Ctrl</span>K
           </kbd>

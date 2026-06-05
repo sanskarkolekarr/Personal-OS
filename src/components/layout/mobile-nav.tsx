@@ -19,7 +19,7 @@ export function MobileNav() {
   return (
     <>
       {/* Bottom Navigation Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 h-16 border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50 flex items-center justify-around px-2 pb-safe">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 h-16 border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50 flex items-center justify-around px-2 pb-0">
         {mainItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
           return (
