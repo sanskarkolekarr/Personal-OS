@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useGoals } from '@/hooks/use-goals';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -56,8 +57,10 @@ export function GoalForm({ goal, onSuccess }: GoalFormProps) {
 
     if (goal) {
       await updateGoal(goal.id, data);
+      toast.success('Goal updated successfully!');
     } else {
       await createGoal(data as any);
+      toast.success('Goal created successfully!');
     }
 
     onSuccess ? onSuccess() : closeQuickAdd();
@@ -105,7 +108,7 @@ export function GoalForm({ goal, onSuccess }: GoalFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Horizon</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select horizon" />
@@ -130,7 +133,7 @@ export function GoalForm({ goal, onSuccess }: GoalFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Status</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select status" />

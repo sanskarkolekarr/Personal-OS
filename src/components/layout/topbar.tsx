@@ -40,9 +40,6 @@ export function Topbar() {
             <span className="hidden sm:inline">Quick Add</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem onClick={() => openQuickAdd('task')}>
-              New Task
-            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => openQuickAdd('project')}>
               New Project
             </DropdownMenuItem>

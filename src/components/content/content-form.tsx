@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useContent } from '@/hooks/use-content';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -55,8 +56,10 @@ export function ContentForm({ item, onSuccess }: ContentFormProps) {
 
     if (item) {
       await updateContent(item.id, data);
+      toast.success('Content idea updated successfully!');
     } else {
       await createContent(data as any);
+      toast.success('Content idea created successfully!');
     }
 
     onSuccess ? onSuccess() : closeQuickAdd();
@@ -104,7 +107,7 @@ export function ContentForm({ item, onSuccess }: ContentFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Platform</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select platform" />
@@ -127,7 +130,7 @@ export function ContentForm({ item, onSuccess }: ContentFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Status</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select status" />

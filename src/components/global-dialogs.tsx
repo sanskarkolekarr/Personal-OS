@@ -2,22 +2,21 @@
 
 import { useAppStore } from '@/stores/app-store';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { TaskForm } from '@/components/tasks/task-form';
 import { ProjectForm } from '@/components/projects/project-form';
 import { GoalForm } from '@/components/goals/goal-form';
 import { NoteForm } from '@/components/knowledge/note-form';
 import { ContentForm } from '@/components/content/content-form';
 
 export function GlobalDialogs() {
-  const { quickAddOpen, quickAddType, closeQuickAdd } = useAppStore();
+  const { quickAddOpen, quickAddType, activeItem, closeQuickAdd } = useAppStore();
 
   const getTitle = () => {
+    const action = activeItem ? 'Edit' : 'Create New';
     switch (quickAddType) {
-      case 'task': return 'Create New Task';
-      case 'project': return 'Create New Project';
-      case 'goal': return 'Create New Goal';
-      case 'note': return 'Create New Note';
-      case 'content': return 'Create Content Idea';
+      case 'project': return `${action} Project`;
+      case 'goal': return `${action} Goal`;
+      case 'note': return `${action} Note`;
+      case 'content': return activeItem ? 'Edit Content Idea' : 'Create Content Idea';
       default: return 'Quick Add';
     }
   };
@@ -33,11 +32,10 @@ export function GlobalDialogs() {
         </DialogHeader>
 
         <div className="py-2">
-          {quickAddType === 'task' && <TaskForm />}
-          {quickAddType === 'project' && <ProjectForm />}
-          {quickAddType === 'goal' && <GoalForm />}
-          {quickAddType === 'note' && <NoteForm />}
-          {quickAddType === 'content' && <ContentForm />}
+          {quickAddType === 'project' && <ProjectForm project={activeItem} />}
+          {quickAddType === 'goal' && <GoalForm goal={activeItem} />}
+          {quickAddType === 'note' && <NoteForm note={activeItem} />}
+          {quickAddType === 'content' && <ContentForm item={activeItem} />}
         </div>
       </DialogContent>
     </Dialog>

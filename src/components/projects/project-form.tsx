@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useProjects } from '@/hooks/use-projects';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -55,8 +56,10 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
 
     if (project) {
       await updateProject(project.id, data);
+      toast.success('Project updated successfully!');
     } else {
       await createProject(data);
+      toast.success('Project created successfully!');
     }
 
     if (onSuccess) {
@@ -104,7 +107,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Priority</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select priority" />
@@ -132,7 +135,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Status</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select status" />

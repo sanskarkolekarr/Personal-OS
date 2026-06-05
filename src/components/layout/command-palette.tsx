@@ -14,7 +14,7 @@ import {
   CommandSeparator,
 } from '@/components/ui/command';
 import { NAV_ITEMS, KEYBOARD_SHORTCUTS } from '@/lib/constants';
-import { Loader2, Plus, Calendar as CalendarIcon, Hash, Target, CheckSquare, FolderKanban, BookOpen, Pen, Trophy, Settings } from 'lucide-react';
+import { Loader2, Plus, Calendar as CalendarIcon, Hash, Target, FolderKanban, BookOpen, Pen, Trophy, Settings } from 'lucide-react';
 
 export function CommandPalette() {
   const router = useRouter();
@@ -40,7 +40,6 @@ export function CommandPalette() {
 
   const getIconForType = (type: string) => {
     switch (type) {
-      case 'task': return <CheckSquare className="mr-2 h-4 w-4" />;
       case 'project': return <FolderKanban className="mr-2 h-4 w-4" />;
       case 'goal': return <Target className="mr-2 h-4 w-4" />;
       case 'note': return <BookOpen className="mr-2 h-4 w-4" />;
@@ -86,10 +85,6 @@ export function CommandPalette() {
         <CommandSeparator />
 
         <CommandGroup heading="Quick Actions">
-          <CommandItem onSelect={() => runCommand(() => openQuickAdd('task'))}>
-            <Plus className="mr-2 h-4 w-4" />
-            <span>New Task</span>
-          </CommandItem>
           <CommandItem onSelect={() => runCommand(() => openQuickAdd('note'))}>
             <Plus className="mr-2 h-4 w-4" />
             <span>New Note</span>

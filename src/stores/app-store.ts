@@ -20,10 +20,11 @@ interface AppState {
   globalSearchQuery: string;
   setGlobalSearchQuery: (query: string) => void;
 
-  // Quick add
+  // Quick add / Edit
   quickAddOpen: boolean;
-  quickAddType: 'task' | 'project' | 'goal' | 'note' | 'content' | null;
-  openQuickAdd: (type: 'task' | 'project' | 'goal' | 'note' | 'content') => void;
+  quickAddType: 'project' | 'goal' | 'note' | 'content' | null;
+  activeItem: any | null;
+  openQuickAdd: (type: 'project' | 'goal' | 'note' | 'content', item?: any) => void;
   closeQuickAdd: () => void;
 
   // Mobile nav
@@ -48,11 +49,12 @@ export const useAppStore = create<AppState>()(
       globalSearchQuery: '',
       setGlobalSearchQuery: (query) => set({ globalSearchQuery: query }),
 
-      // Quick add
+      // Quick add / Edit
       quickAddOpen: false,
       quickAddType: null,
-      openQuickAdd: (type) => set({ quickAddOpen: true, quickAddType: type }),
-      closeQuickAdd: () => set({ quickAddOpen: false, quickAddType: null }),
+      activeItem: null,
+      openQuickAdd: (type, item = null) => set({ quickAddOpen: true, quickAddType: type, activeItem: item }),
+      closeQuickAdd: () => set({ quickAddOpen: false, quickAddType: null, activeItem: null }),
 
       // Mobile nav
       mobileNavOpen: false,

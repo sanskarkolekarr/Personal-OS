@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import { CONTENT_PLATFORMS, CONTENT_STATUSES } from '@/lib/constants';
 import { PenTool } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useAppStore } from '@/stores/app-store';
 
 interface ContentCardProps {
   item: ContentItem;
@@ -21,14 +22,18 @@ const STATUS_CONFIG: Record<string, { label: string; textColor: string; bg: stri
 };
 
 export function ContentCard({ item, isListView }: ContentCardProps) {
+  const { openQuickAdd } = useAppStore();
   const platform = CONTENT_PLATFORMS.find(p => p.value === item.platform);
   const statusCfg = STATUS_CONFIG[item.status] ?? STATUS_CONFIG.idea;
 
   return (
-    <Card className={cn(
-      'glass-card hover:border-primary/30 transition-all group cursor-pointer',
-      isListView ? 'flex flex-row items-center p-4' : 'flex flex-col h-48'
-    )}>
+    <Card 
+      className={cn(
+        'glass-card hover:border-primary/30 transition-all group cursor-pointer',
+        isListView ? 'flex flex-row items-center p-4' : 'flex flex-col h-48'
+      )}
+      onClick={() => openQuickAdd('content', item)}
+    >
       {isListView ? (
         /* ── List view ─────────────────────────────────────── */
         <div className="flex w-full items-center gap-4">

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useNotes } from '@/hooks/use-notes';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -49,8 +50,10 @@ export function NoteForm({ note, onSuccess }: NoteFormProps) {
 
     if (note) {
       await updateNote(note.id, data);
+      toast.success('Note updated successfully!');
     } else {
       await createNote(data);
+      toast.success('Note created successfully!');
     }
 
     onSuccess ? onSuccess() : closeQuickAdd();

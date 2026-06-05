@@ -9,19 +9,24 @@ import { PRIORITIES, PROJECT_STATUSES } from '@/lib/constants';
 import { CalendarIcon, CheckSquare, FolderKanban } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 interface ProjectCardProps {
   project: Project;
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
+  const router = useRouter();
   const priority = PRIORITIES.find(p => p.value === project.priority);
   const status = PROJECT_STATUSES.find(s => s.value === project.status);
   
   const isOverdue = project.deadline && isPast(new Date(project.deadline)) && !isToday(new Date(project.deadline)) && project.status !== 'completed';
 
   return (
-    <Card className="glass-card hover:border-primary/30 transition-all group flex flex-col h-full">
+    <Card 
+      className="glass-card hover:border-primary/30 transition-all group flex flex-col h-full cursor-pointer"
+      onClick={() => router.push(`/projects/${project.id}`)}
+    >
       <CardContent className="p-4 flex-1 flex flex-col">
         <div className="flex items-start justify-between gap-2 mb-3">
           <div className="flex items-center gap-2">

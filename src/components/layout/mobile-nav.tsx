@@ -35,7 +35,7 @@ export function MobileNav() {
           <Button
             size="icon"
             className="h-12 w-12 rounded-full shadow-lg shadow-primary/25 border-4 border-background"
-            onClick={() => openQuickAdd('task')}
+            onClick={() => openQuickAdd('note')}
           >
             <Plus className="h-6 w-6" />
           </Button>

@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { format, isPast, isToday } from 'date-fns';
 import { CalendarIcon, Target, CheckCircle2, Circle } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useAppStore } from '@/stores/app-store';
 
 interface GoalCardProps {
   goal: Goal;
@@ -26,6 +27,7 @@ const TYPE_COLORS: Record<string, { bg: string; text: string }> = {
 };
 
 export function GoalCard({ goal }: GoalCardProps) {
+  const { openQuickAdd } = useAppStore();
   const typeColor = TYPE_COLORS[goal.type] || { bg: 'bg-primary/10', text: 'text-primary' };
   const isOverdue = goal.deadline
     && !isToday(new Date(goal.deadline))
@@ -39,7 +41,10 @@ export function GoalCard({ goal }: GoalCardProps) {
     : goal.progress;
 
   return (
-    <Card className="glass-card hover:border-primary/30 transition-all group flex flex-col h-full overflow-hidden">
+    <Card 
+      className="glass-card hover:border-primary/30 transition-all group flex flex-col h-full overflow-hidden cursor-pointer"
+      onClick={() => openQuickAdd('goal', goal)}
+    >
       {/* Accent bar */}
       <div className={cn('h-1 w-full', typeColor.bg)} />
 

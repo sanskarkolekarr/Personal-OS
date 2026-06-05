@@ -5,16 +5,21 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
 import { BookOpen } from 'lucide-react';
+import { useAppStore } from '@/stores/app-store';
 
 interface NoteCardProps {
   note: Note;
 }
 
 export function NoteCard({ note }: NoteCardProps) {
+  const { openQuickAdd } = useAppStore();
   // Simple extraction of tags if we support it later, or just show folder
   
   return (
-    <Card className="glass-card hover:border-primary/30 transition-all group flex flex-col h-full cursor-pointer h-48">
+    <Card 
+      className="glass-card hover:border-primary/30 transition-all group flex flex-col h-full cursor-pointer h-48"
+      onClick={() => openQuickAdd('note', note)}
+    >
       <CardContent className="p-4 flex-1 flex flex-col">
         <div className="flex items-start gap-3 mb-2">
           <div className={`p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors shrink-0 mt-0.5`}>

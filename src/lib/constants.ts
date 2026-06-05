@@ -4,11 +4,8 @@
 
 import {
   LayoutDashboard,
-  CheckSquare,
   FolderKanban,
   Target,
-  CalendarDays,
-  Calendar as CalendarIcon,
   Pen,
   BookOpen,
   Trophy,
@@ -21,11 +18,8 @@ import {
 
 export const NAV_ITEMS = [
   { title: 'Dashboard', href: '/', icon: LayoutDashboard },
-  { title: 'Tasks', href: '/tasks', icon: CheckSquare },
   { title: 'Projects', href: '/projects', icon: FolderKanban },
   { title: 'Goals', href: '/goals', icon: Target },
-  { title: 'Daily Planner', href: '/planner', icon: CalendarDays },
-  { title: 'Calendar', href: '/calendar', icon: CalendarIcon },
   { title: 'Content Hub', href: '/content', icon: Pen },
   { title: 'Knowledge Vault', href: '/notes', icon: BookOpen },
   { title: 'Achievements', href: '/achievements', icon: Trophy },
@@ -121,7 +115,6 @@ export const CONTENT_PLATFORMS = [
 
 export const KEYBOARD_SHORTCUTS = [
   { keys: ['Ctrl', 'K'], description: 'Open command palette' },
-  { keys: ['Ctrl', 'N'], description: 'Quick add task' },
   { keys: ['Ctrl', 'B'], description: 'Toggle sidebar' },
   { keys: ['Ctrl', 'Shift', 'N'], description: 'Quick add note' },
   { keys: ['Escape'], description: 'Close dialogs' },
