@@ -1,6 +1,6 @@
 'use client';
 
-import { Search, Plus, Bell } from 'lucide-react';
+import { Search, Plus, Bell, Download } from 'lucide-react';
 import { useAppStore } from '@/stores/app-store';
 import { useSettings } from '@/hooks/use-settings';
 import { Button } from '@/components/ui/button';
@@ -11,10 +11,45 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 export function Topbar() {
   const { toggleCommandPalette, openQuickAdd } = useAppStore();
   const { settings } = useSettings();
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [isInstalled, setIsInstalled] = useState(false);
+
+  useEffect(() => {
+    // Check if already installed as PWA
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setIsInstalled(true);
+      return;
+    }
+
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', handler);
+    window.addEventListener('appinstalled', () => {
+      setIsInstalled(true);
+      setInstallPrompt(null);
+      toast.success("Sanskar's OS installed!", { description: 'Find it on your home screen.' });
+    });
+
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstall = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    const { outcome } = await installPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setInstallPrompt(null);
+    }
+  };
 
   return (
     <header className="h-16 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-between px-4 md:px-6 sticky top-0 z-10 shrink-0">
@@ -33,6 +68,20 @@ export function Topbar() {
       </div>
 
       <div className="flex items-center gap-2 md:gap-4">
+
+        {/* PWA Install Button — shows only when install is available */}
+        {installPrompt && !isInstalled && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleInstall}
+            className="hidden sm:flex gap-2 border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground animate-pulse-glow"
+          >
+            <Download className="h-4 w-4" />
+            Install App
+          </Button>
+        )}
+
         {/* Quick Add Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors">
